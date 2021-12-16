@@ -95,6 +95,8 @@ namespace RPI {
     Os::File file;
     Os::File::Status fileStatus;
 
+    FW_ASSERT(filename.toChar() != NULL);
+
     fileStatus = file.open(filename.toChar(), Os::File::OPEN_READ);
     if( Os::File::OP_OK == fileStatus) {
       // File exists
@@ -153,6 +155,8 @@ namespace RPI {
     )
   {
     I32 status;
+
+    FW_ASSERT(filename.toChar() != NULL);
 
     status = this->removeFile(filename.toChar());
     if (status < 0) {
