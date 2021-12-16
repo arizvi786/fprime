@@ -52,6 +52,7 @@ include("${CMAKE_CURRENT_LIST_DIR}/../cmake/FPrime-Code.cmake")
 ##
 # Add component subdirectories
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/RpiDemo/")
+add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/RpiCam/")
 
 # Add Topology subdirectory
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Top/")
