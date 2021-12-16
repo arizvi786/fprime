@@ -86,6 +86,7 @@ Drv::LinuxGpioDriverComponentImpl gpio25Drv("gpio25Drv");
 Drv::LinuxGpioDriverComponentImpl gpio17Drv("gpio17Drv");
 
 Rpi::RpiDemoComponentImpl rpiDemo("rpiDemo");
+Rpi::RpiCamComponentImpl rpiCam("rpiCam");
 
 void constructApp(U32 port_number, char* hostname) {
     staticMemory.init(0);
@@ -139,6 +140,7 @@ void constructApp(U32 port_number, char* hostname) {
     gpio17Drv.init(0);
 
     rpiDemo.init(10,0);
+    rpiCam.init(10,0);
     downlink.setup(framing);
     uplink.setup(deframing);
 
@@ -152,6 +154,7 @@ void constructApp(U32 port_number, char* hostname) {
     fileDownlink.regCommands();
     health.regCommands();
     rpiDemo.regCommands();
+    rpiCam.regCommands();
 
     // set sequencer timeout
     cmdSeq.setTimeout(30);
@@ -180,6 +183,7 @@ void constructApp(U32 port_number, char* hostname) {
 
     // load parameters
     rpiDemo.loadParameters();
+    rpiCam.loadParameters();
 
     // set up BufferManager instances
     Svc::BufferManagerComponentImpl::BufferBins upBuffMgrBins;
@@ -204,6 +208,7 @@ void constructApp(U32 port_number, char* hostname) {
     fileDownlink.start();
     fileUplink.start();
     rpiDemo.start();
+    rpiCam.start();
 
     // Use the mini-UART for our serial connection
     // https://www.raspberrypi.org/documentation/configuration/uart.md
@@ -264,6 +269,7 @@ void exitTasks() {
     fileDownlink.exit();
     cmdSeq.exit();
     rpiDemo.exit();
+    rpiCam.exit();
     comm.stopSocketTask();
     (void) comm.joinSocketTask(nullptr);
     cmdSeq.deallocateBuffer(mallocator);

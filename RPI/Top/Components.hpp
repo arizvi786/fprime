@@ -34,6 +34,7 @@
 
 // Main app
 #include <RPI/RpiDemo/RpiDemoComponentImpl.hpp>
+#include <RPI/RpiCam/RpiCam.hpp>
 
 void constructRPIArchitecture();
 void exitTasks();
@@ -66,6 +67,7 @@ extern Drv::LinuxGpioDriverComponentImpl gpio25Drv;
 extern Drv::LinuxGpioDriverComponentImpl gpio17Drv;
 
 extern Rpi::RpiDemoComponentImpl rpiDemo;
+extern Rpi::RpiCamComponentImpl rpiCam;
 
 extern Svc::StaticMemoryComponentImpl staticMemory;
 extern Drv::TcpClientComponentImpl comm;

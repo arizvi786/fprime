@@ -154,6 +154,11 @@ module RPI {
     stack size Default.stackSize \
     priority 30
 
+  instance rpiCam: RPI.RpiCam base id 2800 \
+    queue size Default.queueSize \
+    stack size Default.stackSize \
+    priority 30
+
   # ----------------------------------------------------------------------
   # Queued component instances
   # ----------------------------------------------------------------------

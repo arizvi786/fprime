@@ -30,6 +30,7 @@ module RPI {
     instance rateGroup1HzComp
     instance rateGroupDriverComp
     instance rpiDemo
+    instance rpiCam
     instance spiDrv
     instance staticMemory
     instance textLogger
@@ -100,7 +101,8 @@ module RPI {
       rateGroup1HzComp.RateGroupMemberOut[0] -> chanTlm.Run
       rateGroup1HzComp.RateGroupMemberOut[1] -> $health.Run
       rateGroup1HzComp.RateGroupMemberOut[2] -> rpiDemo.Run
-      rateGroup1HzComp.RateGroupMemberOut[3] -> cmdSeq.schedIn
+      rateGroup1HzComp.RateGroupMemberOut[3] -> rpiCam.Run
+      rateGroup1HzComp.RateGroupMemberOut[4] -> cmdSeq.schedIn
 
     }
 
