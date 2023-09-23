@@ -63,7 +63,7 @@ function(build_setup_build_module MODULE SOURCES GENERATED EXCLUDED_SOURCES DEPE
         )
         # Setup the hash file for our sources
         foreach(SRC_FILE IN LISTS MODULE_SOURCES)
-            set_hash_flag("${SRC_FILE}")
+            set_assert_flags("${SRC_FILE}")
         endforeach()
     endif()
     # Includes the source, so that the Ac files can include source headers
@@ -91,6 +91,11 @@ function(build_setup_build_module MODULE SOURCES GENERATED EXCLUDED_SOURCES DEPE
         endif()
     endforeach()
     set_property(TARGET "${MODULE}" PROPERTY FPRIME_TARGET_DEPENDENCIES ${TARGET_DEPENDENCIES})
+    # Special flags applied to modules when compiling with testing enabled
+    if (BUILD_TESTING)
+        target_compile_options("${MODULE}" PRIVATE ${FPRIME_TESTING_REQUIRED_COMPILE_FLAGS})
+        target_link_libraries("${MODULE}" PRIVATE ${FPRIME_TESTING_REQUIRED_LINK_FLAGS})
+    endif()
 endfunction()
 
 ####
@@ -120,11 +125,6 @@ function(build_add_module_target MODULE TARGET SOURCES DEPENDENCIES)
     run_ac_set("${SOURCES}" ${CUSTOM_AUTOCODERS})
     resolve_dependencies(RESOLVED ${DEPENDENCIES} ${AC_DEPENDENCIES} )
     build_setup_build_module("${MODULE}" "${SOURCES}" "${AC_GENERATED}" "${AC_SOURCES}" "${RESOLVED}")
-    # Special flags applied to modules when compiling with testing enabled
-    if (BUILD_TESTING)
-        target_compile_options("${MODULE}" PRIVATE ${FPRIME_TESTING_REQUIRED_COMPILE_FLAGS})
-        target_link_libraries("${MODULE}" PRIVATE ${FPRIME_TESTING_REQUIRED_LINK_FLAGS})
-    endif()
 
     if (CMAKE_DEBUG_OUTPUT)
         introspect("${MODULE}")

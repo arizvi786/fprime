@@ -49,7 +49,7 @@ namespace Drv {
         }
 
         // TODO check value of len
-        len = snprintf(buf, sizeof(buf), "%d", gpio);
+        len = snprintf(buf, sizeof(buf), "%u", gpio);
         if(write(fd, buf, len) != len) {
             (void) close(fd);
             DEBUG_PRINT("gpio/export error!\n");
@@ -80,7 +80,7 @@ namespace Drv {
         }
 
         // TODO check value of len
-        len = snprintf(buf, sizeof(buf), "%d", gpio);
+        len = snprintf(buf, sizeof(buf), "%u", gpio);
         if(write(fd, buf, len) != len) {
             (void) close(fd);
             DEBUG_PRINT("gpio/unexport error!\n");
@@ -104,7 +104,7 @@ namespace Drv {
         int fd, len;
         char buf[MAX_BUF];
 
-        len = snprintf(buf, sizeof(buf), SYSFS_GPIO_DIR  "/gpio%d/direction", gpio);
+        len = snprintf(buf, sizeof(buf), SYSFS_GPIO_DIR  "/gpio%u/direction", gpio);
         FW_ASSERT(len > 0, len);
 
         fd = open(buf, O_WRONLY);
@@ -190,7 +190,7 @@ namespace Drv {
         FW_ASSERT(edge != nullptr);
         // TODO check that edge has correct values of "none", "rising", or "falling"
 
-        len = snprintf(buf, sizeof(buf), SYSFS_GPIO_DIR "/gpio%d/edge", gpio);
+        len = snprintf(buf, sizeof(buf), SYSFS_GPIO_DIR "/gpio%u/edge", gpio);
         FW_ASSERT(len > 0, len);
 
         fd = open(buf, O_WRONLY);
@@ -219,7 +219,7 @@ namespace Drv {
         int fd, len;
         char buf[MAX_BUF];
 
-        len = snprintf(buf, sizeof(buf), SYSFS_GPIO_DIR "/gpio%d/value", gpio);
+        len = snprintf(buf, sizeof(buf), SYSFS_GPIO_DIR "/gpio%u/value", gpio);
         FW_ASSERT(len > 0, len);
 
         fd = open(buf, O_RDWR | O_NONBLOCK );
@@ -397,10 +397,10 @@ namespace Drv {
   }
 
   Os::Task::TaskStatus LinuxGpioDriverComponentImpl ::
-  startIntTask(NATIVE_UINT_TYPE priority, NATIVE_UINT_TYPE cpuAffinity) {
+  startIntTask(NATIVE_UINT_TYPE priority, NATIVE_UINT_TYPE stackSize, NATIVE_UINT_TYPE cpuAffinity) {
       Os::TaskString name;
       name.format("GPINT_%s",this->getObjName()); // The task name can only be 16 chars including null
-      Os::Task::TaskStatus stat = this->m_intTask.start(name, LinuxGpioDriverComponentImpl::intTaskEntry, this, priority, Os::Task::TASK_DEFAULT, cpuAffinity);
+      Os::Task::TaskStatus stat = this->m_intTask.start(name, LinuxGpioDriverComponentImpl::intTaskEntry, this, priority, stackSize, cpuAffinity);
 
       if (stat != Os::Task::TASK_OK) {
           DEBUG_PRINT("Task start error: %d\n",stat);

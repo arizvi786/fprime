@@ -50,12 +50,8 @@ module RPI {
     stack size Default.stackSize \
     priority 20 \
   {
-
-    phase Fpp.ToCpp.Phases.instances """
-    Svc::PrmDb prmDb(FW_OPTIONAL_NAME("prmDb"), "PrmDb.dat");
-    """
-
     phase Fpp.ToCpp.Phases.readParameters """
+    prmDb.configure("PrmDb.dat");
     prmDb.readParamFile();
     """
 
@@ -246,9 +242,7 @@ module RPI {
 
   }
 
-  instance comm: Drv.ByteStreamDriverModel base id 1260 \
-    type "Drv::TcpClient" \
-    at "../../Drv/TcpClient/TcpClient.hpp" \
+  instance comm: Drv.TcpClient base id 1260 \
   {
 
     phase Fpp.ToCpp.Phases.configConstants """

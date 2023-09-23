@@ -9,10 +9,8 @@
 // acknowledged.
 //
 // ======================================================================
-
-#include <limits>
-
 #include "FprimeProtocol.hpp"
+#include "FpConfig.hpp"
 #include "Utils/Hash/Hash.hpp"
 
 namespace Svc {

@@ -7,13 +7,20 @@
 //
 // ======================================================================
 
-\#ifndef ${name.upper()}_COMP_HPP_
-\#define ${name.upper()}_COMP_HPP_
+\#ifndef ${namespace.upper().replace("::", "_")}_${name.upper()}_COMP_HPP_
+\#define ${namespace.upper().replace("::", "_")}_${name.upper()}_COMP_HPP_
 
 \#include <FpConfig.hpp>
 \#include <Fw/Port/InputSerializePort.hpp>
 \#include <Fw/Port/OutputSerializePort.hpp>
+
+#if $kind == "passive":
+\#include <Fw/Comp/PassiveComponentBase.hpp>
+#else:
 \#include <Fw/Comp/ActiveComponentBase.hpp>
+#end if
+
+
 #if $has_guarded_ports or $has_parameters
 \#include <Os/Mutex.hpp>
 #end if
@@ -244,6 +251,7 @@ namespace ${namespace} {
         const char* compName = "" $doxygen_post_comment("Component name")
     );
 
+  public:
     //! Initialize a ${name}ComponentBase object
     //!
     void init(
@@ -259,6 +267,7 @@ namespace ${namespace} {
 #end if
     );
 
+  PROTECTED:
     //! Destroy a ${name}ComponentBase object
     //!
     virtual ~${name}ComponentBase();
